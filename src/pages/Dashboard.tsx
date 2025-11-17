@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Package, Building2, Tags, AlertTriangle, TrendingUp, DollarSign } from "lucide-react";
@@ -20,6 +21,10 @@ interface Product {
   min_stock: number;
   price: number;
   cost: number;
+}
+
+declare global {
+  interface Window { chatbase?: any; }
 }
 
 const Dashboard = () => {
@@ -115,6 +120,41 @@ const Dashboard = () => {
     return () => {
       supabase.removeChannel(channel);
     };
+  }, []);
+
+  useEffect(() => {
+    const id = "zv1kYupvRCB1hnrbSUtSw";
+    if (!document.getElementById(id)) {
+      const script = document.createElement("script");
+      script.src = "https://www.chatbase.co/embed.min.js";
+      script.id = id;
+      script.async = true;
+      document.body.appendChild(script);
+      script.addEventListener("load", identifyUser);
+    } else {
+      identifyUser();
+    }
+
+    async function identifyUser() {
+      try {
+        const res = await fetch("/api/chatbase-token");
+        if (!res.ok) return;
+        const { token } = await res.json();
+        if (!token) return;
+
+        if (window.chatbase) {
+          window.chatbase("identify", { token });
+        } else {
+          (window as any).chatbase = (window as any).chatbase || ((...args: any[]) => {
+            (window as any).chatbase_q = (window as any).chatbase_q || [];
+            (window as any).chatbase_q.push(args);
+          });
+          (window as any).chatbase("identify", { token });
+        }
+      } catch (err) {
+        console.error("Chatbase identify failed", err);
+      }
+    }
   }, []);
 
   const statCards = [
