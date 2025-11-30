@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* Clean dashboard typography + soft visual styles */
+.dashboard-font {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-weight: 600;
+}
+
+.chart-card {
+  transition: transform .35s cubic-bezier(.2,0.9,0.2,1), box-shadow .35s ease, border-color .35s ease;
+  will-change: transform;
+  border-radius: 12px;
+}
+.chart-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 34px rgba(2,6,23,0.28);
+  border-color: rgba(255,255,255,0.04);
+}
+
+/* Tooltip uses same clean font and softer background */
+.dashboard-tooltip {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: rgba(10, 12, 18, 0.9);
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+/* Subtitles under titles to be didactic */
+.chart-subtitle {
+  font-size: 0.85rem;
+  color: rgba(148,163,184,0.9); /* muted slate */
+  margin-top: 6px;
+}
+
+/* Subtle glass effect for card surfaces */
+.chart-panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(4px);
+}
+
+/* Reduce heavy shadows on small screens */
+@media (max-width: 768px) {
+  .chart-card:hover { transform: none; box-shadow: 0 6px 18px rgba(2,6,23,0.12); }
+}
